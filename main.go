@@ -297,7 +297,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	checker, err := NewChecker("system")
+	checker, err := NewChecker(unitPath)
 	if err != nil {
 		panic(err)
 	}
