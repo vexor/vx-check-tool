@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	unitPath = "/etc/systemd/system/*.service"
+	unitPath = "/etc/systemd/system"
 	hostname string
 	apiKey   string
 	apiUrl   string
@@ -142,6 +142,7 @@ type Checker struct {
 
 func NewChecker(path string) (*Checker, error) {
 	mask := fmt.Sprintf("%s/*.service", path)
+	log.Printf("Search services by %s", mask)
 	files, err := filepath.Glob(mask)
 	if err != nil {
 		return nil, err
@@ -205,7 +206,9 @@ func (self *Checker) Run() []Status {
 		log.Printf("Check %s", st)
 	}
 
-	self.Notify(newStatuses)
+	if len(newStatuses) > 0 {
+		self.Notify(newStatuses)
+	}
 
 	return newStatuses
 }
